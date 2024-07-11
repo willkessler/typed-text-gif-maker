@@ -29,7 +29,7 @@ let isCapturing = false;
 let animationTimeout;
 
 const googleFonts = [
-    "Libre Franklin", "Open Sans", "Lato", "Montserrat", "Raleway", "Poppins", "Oswald", "Merriweather", 
+    "Open Sans", "Lato", "Montserrat", "Raleway", "Poppins", "Oswald", "Merriweather", 
     "Playfair Display", "Ubuntu", "Roboto Condensed", "Roboto Slab", "Noto Sans", "PT Sans", 
     "Source Sans Pro", "Slabo 27px", "Quicksand", "Nunito", "Titillium Web", "Rubik"
 ];
@@ -137,6 +137,7 @@ async function captureGIF() {
     return;
   }
 
+  updateTypewriterStyle(); // make sure to call this before we start capturing
   isCapturing = true;
   captureBtn.textContent = 'Capturing, please wait... (click to cancel)';
   errorElement.textContent = '';
