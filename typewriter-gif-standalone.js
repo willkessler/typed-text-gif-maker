@@ -24,6 +24,22 @@ let currentSuffix = '';
 let isCapturing = false;
 let animationTimeout;
 
+const googleFonts = [
+    "Roboto", "Open Sans", "Lato", "Montserrat", "Raleway", "Poppins", "Oswald", "Merriweather", 
+    "Playfair Display", "Ubuntu", "Roboto Condensed", "Roboto Slab", "Noto Sans", "PT Sans", 
+    "Source Sans Pro", "Slabo 27px", "Quicksand", "Nunito", "Titillium Web", "Rubik"
+];
+
+// Function to populate the font family dropdown
+function populateFontDropdown() {
+    const fontFamilySelect = document.getElementById('fontFamily');
+    googleFonts.forEach(font => {
+        const option = document.createElement('option');
+        option.value = font;
+        option.textContent = font;
+        fontFamilySelect.appendChild(option);
+    });
+}
 
 function updateTypewriterStyle() {
   textElement.style.fontSize = `${fontSizeInput.value}px`;
@@ -165,6 +181,8 @@ function resetCaptureState() {
   captureBtn.disabled = false;
   captureBtn.textContent = 'Capture as GIF';
 }
+
+document.addEventListener('DOMContentLoaded', populateFontDropdown);
 
 captureBtn.addEventListener('click', captureGIF);
 prefixInput.addEventListener('input', updateText);
