@@ -12,7 +12,9 @@
 </head>
 <body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
     <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-3xl">
-        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Typewriter GIF Creator</h1>
+        <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Typewriter GIF Tool!</h1>
+        <h1 class="mb-6 text-left text-gray-800">This tool makes it simple to generate a "typewriter effect" rotating set of texts and get a downloadable GIF.</h1>
+        <h1 class="mb-6 text-left text-gray-800">Usage: change the prefix, suffixes, font settings and colors to whatever suits your needs, and click <span class="font-bold">Generate GIF</span>. You can then download a GIF exactly like the preview that you can insert into any website builder e.g. in a hero section.</h1>
         <div class="space-y-4 mb-6">
             <div>
                 <label for="prefix" class="block text-sm font-medium text-gray-700">Prefix:</label>
@@ -47,12 +49,12 @@ the world of programming!</textarea>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
-                    <label for="backgroundColor" class="block text-sm font-medium text-gray-700">Text prefix color:</label>
+                    <label for="backgroundColor" class="block text-sm font-medium text-gray-700">Prefix color:</label>
                     <input type="color" id="prefixColor" value="#000000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-10">
                 </div>
                 <div>
-                    <label for="backgroundColor" class="block text-sm font-medium text-gray-700">Text suffix color:</label>
-                    <input type="color" id="suffixColor" value="#000000" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-10">
+                    <label for="backgroundColor" class="block text-sm font-medium text-gray-700">Suffix color:</label>
+                    <input type="color" id="suffixColor" value="#401AFF" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 h-10">
                 </div>
                 <div>
                     <label for="backgroundColor" class="block text-sm font-medium text-gray-700">Background color:</label>
@@ -62,11 +64,11 @@ the world of programming!</textarea>
         </div>
         <label for="typewriter" class="block text-sm font-medium text-gray-700">Preview:</label>
         <div id="typewriter" class="mb-6 p-4 border rounded-md shadow-inner bg-white w-full h-32 flex items-start justify-start overflow-hidden">
-            <p id="text" class="font-mono text-lg m-0 text-left whitespace-pre-wrap break-words"></p>
+            <p id="text" class="text-lg m-0 text-left whitespace-pre-wrap break-words"></p>
         </div>
         <div class="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 mb-6">
-            <button id="previewBtn" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors">Preview</button>
-            <button id="captureBtn" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors">Capture as GIF</button>
+            <button id="captureBtn" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors">Generate GIF</button>
+            <button id="restartBtn" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors">Start Over</button>
         </div>
         <div id="status" class="text-center italic text-gray-600 mb-2"></div>
         <div id="log" class="text-center italic text-gray-600 mb-2 max-h-40 overflow-y-auto"></div>

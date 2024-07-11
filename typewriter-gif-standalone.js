@@ -1,6 +1,7 @@
 const typewriterElement = document.getElementById('typewriter');
 const textElement = document.getElementById('text');
 const captureBtn = document.getElementById('captureBtn');
+const restartBtn = document.getElementById('restartBtn');
 const gifResult = document.getElementById('gifResult');
 const statusElement = document.getElementById('status');
 const logElement = document.getElementById('log');
@@ -12,8 +13,11 @@ const suffixesTextarea = document.getElementById('suffixes');
 const fontSizeInput = document.getElementById('fontSize');
 const fontFamilySelect = document.getElementById('fontFamily');
 const backgroundColorInput = document.getElementById('backgroundColor');
+const prefixColorInput = document.getElementById('prefixColor');
+const suffixColorInput = document.getElementById('suffixColor');
 const typingSpeedInput = document.getElementById('typingSpeed');
 const suffixDelayInput = document.getElementById('suffixDelay');
+
 let typingSpeed = typingSpeedInput.value;
 let suffixDelay = suffixDelayInput.value;
 
@@ -25,10 +29,29 @@ let isCapturing = false;
 let animationTimeout;
 
 const googleFonts = [
-    "Roboto", "Open Sans", "Lato", "Montserrat", "Raleway", "Poppins", "Oswald", "Merriweather", 
+    "Libre Franklin", "Open Sans", "Lato", "Montserrat", "Raleway", "Poppins", "Oswald", "Merriweather", 
     "Playfair Display", "Ubuntu", "Roboto Condensed", "Roboto Slab", "Noto Sans", "PT Sans", 
     "Source Sans Pro", "Slabo 27px", "Quicksand", "Nunito", "Titillium Web", "Rubik"
 ];
+
+function reloadPage() {
+  window.location = '/';
+}
+
+function loadAndApplyFont(fontFamily) {
+  WebFont.load({
+    google: {
+      families: [fontFamily]
+    },
+    active: function() {
+      // Font has finished loading
+      document.getElementById('text').style.fontFamily = `"${fontFamily}", sans-serif`;
+    },
+    inactive: function() {
+      console.log(`Failed to load font: ${fontFamily}`);
+    }
+  });
+}
 
 // Function to populate the font family dropdown
 function populateFontDropdown() {
@@ -42,9 +65,27 @@ function populateFontDropdown() {
 }
 
 function updateTypewriterStyle() {
+  const fontFamily = document.getElementById('fontFamily').value;
   textElement.style.fontSize = `${fontSizeInput.value}px`;
-  textElement.style.fontFamily = fontFamilySelect.value;
+  textElement.style.fontFamily = `"${fontFamily}", sans-serif`;
   typewriterElement.style.backgroundColor = backgroundColorInput.value;
+
+  // Apply prefix and suffix colors
+  applyColors();
+}
+
+function applyColors() {
+  const prefixSpan = document.createElement('span');
+  prefixSpan.style.color = prefixColorInput.value;
+  prefixSpan.textContent = prefix;
+
+  const suffixSpan = document.createElement('span');
+  suffixSpan.style.color = suffixColorInput.value;
+  suffixSpan.textContent = currentSuffix;
+
+  textElement.innerHTML = '';
+  textElement.appendChild(prefixSpan);
+  textElement.appendChild(suffixSpan);
 }
 
 function updateText() {
@@ -70,7 +111,8 @@ function animatePreview() {
     }
     if (currentSuffix.length < suffixes[currentSuffixIndex].length) {
       currentSuffix += suffixes[currentSuffixIndex][currentSuffix.length];
-      textElement.textContent = prefix + currentSuffix;
+      applyColors();
+      //textElement.textContent = prefix + currentSuffix;
       animationTimeout = setTimeout(animateNextCharacter, typingSpeed);
     } else {
       animationTimeout = setTimeout(() => {
@@ -90,14 +132,13 @@ function log(message) {
 
 async function captureGIF() {
   if (isCapturing) {
-    log('Capture already in progress');
+    log('Capture already in progress, cancelling');
+    resetCaptureState();
     return;
   }
 
   isCapturing = true;
-  captureBtn.disabled = true;
-  captureBtn.textContent = 'Capturing...';
-  //statusElement.textContent = 'Preparing to capture...';
+  captureBtn.textContent = 'Capturing, please wait... (click to cancel)';
   errorElement.textContent = '';
   logElement.innerHTML = '';
   gifResult.style.display = 'none';
@@ -117,19 +158,20 @@ async function captureGIF() {
 
     for (let cycle = 0; cycle < suffixes.length; cycle++) {
       const currentSuffixText = suffixes[cycle % suffixes.length];
+      currentSuffix = '';
 
       // Type out the suffix
       for (let i = 0; i <= currentSuffixText.length; i++) {
         if (!isCapturing) break;
-        textElement.textContent = prefix + currentSuffixText.slice(0, i);
-        //updateTypewriterStyle();
+        currentSuffix = currentSuffixText.slice(0, i);
+        applyColors();
         const canvas = await html2canvas(typewriterElement);
         if (i === currentSuffixText.length) {
           gif.addFrame(canvas, {delay: suffixDelay, copy: true});
         } else {
           gif.addFrame(canvas, {delay: typingSpeed, copy: true});
         }
-        log(`Captured frame: ${textElement.textContent}`);
+        log(`Capturing frame: ${prefix}${currentSuffix}`);
       }
     }
 
@@ -142,7 +184,7 @@ async function captureGIF() {
       });
 
       gif.on('finished', function(blob) {
-        log('GIF rendering finished');
+        log('Your GIF is ready. Click "Download GIF", below, to use this GIF in your project.');
         const url = URL.createObjectURL(blob);
         gifResult.onload = function() {
           //statusElement.textContent = 'GIF captured successfully!';
@@ -180,18 +222,31 @@ function resetCaptureState() {
   isCapturing = false;
   captureBtn.disabled = false;
   captureBtn.textContent = 'Capture as GIF';
+  log('');
 }
 
 document.addEventListener('DOMContentLoaded', populateFontDropdown);
 
 captureBtn.addEventListener('click', captureGIF);
+restartBtn.addEventListener('click', reloadPage);
 prefixInput.addEventListener('input', updateText);
 suffixesTextarea.addEventListener('input', updateText);
 fontSizeInput.addEventListener('input', updateTypewriterStyle);
 fontFamilySelect.addEventListener('change', updateTypewriterStyle);
 backgroundColorInput.addEventListener('input', updateTypewriterStyle);
+prefixColorInput.addEventListener('input', updateTypewriterStyle);
+suffixColorInput.addEventListener('input', updateTypewriterStyle);
 typingSpeedInput.addEventListener('input', updateText);
 suffixDelayInput.addEventListener('input', updateText);
+
+
+// Use this function when the font dropdown changes
+document.getElementById('fontFamily').addEventListener('change', function() {
+  loadAndApplyFont(this.value);
+});
+
+// Initial font load
+loadAndApplyFont(document.getElementById('fontFamily').value);
 
 // Initial setup
 updateTypewriterStyle();
