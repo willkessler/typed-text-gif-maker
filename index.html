@@ -18,13 +18,13 @@
         <div class="space-y-4 mb-6">
             <div>
                 <label for="prefix" class="block text-sm font-medium text-gray-700">Prefix:</label>
-                <input type="text" id="prefix" placeholder="Enter prefix" value="Welcome to " class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                <input type="text" id="prefix" placeholder="Enter prefix" value="Welcome to the " class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
             </div>
             <div>
                 <label for="suffixes" class="block text-sm font-medium text-gray-700">Suffixes:</label>
-                <textarea id="suffixes" placeholder="Enter suffixes (one per line)" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="3">the typewriter GIF creator tool!
-this magical place called Disneyland.
-the world of programming!</textarea>
+                <textarea id="suffixes" placeholder="Enter suffixes (one per line)" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="3">typewriter GIF tool!
+magic place called Disneyland!
+world of programming.</textarea>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
@@ -34,7 +34,11 @@ the world of programming!</textarea>
                 </div>
                 <div>
                     <label for="fontSize" class="block text-sm font-medium text-gray-700">Font Size:</label>
-                    <input type="number" id="fontSize" min="12" max="36" value="18" step="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                    <input type="number" id="fontSize" min="12" max="36" value="24" step="1" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+                </div>
+                <div class="flex items-center">
+                  <input id="fontBold" type="checkbox" checked class="form-checkbox h-4 w-4 text-blue-600" />
+                  <label for="fontBold" class="ml-2 text-sm font-medium text-gray-900 cursor-pointer">Bold Text</label>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -62,11 +66,11 @@ the world of programming!</textarea>
                 </div>
             </div>
         </div>
-        <label for="typewriter" class="block text-sm font-medium text-gray-700">Preview:</label>
-        <div id="typewriter" class="mb-6 p-4 border rounded-md shadow-inner bg-white w-full h-32 flex items-start justify-start overflow-hidden">
-            <p id="text" class="text-lg m-0 text-left whitespace-pre-wrap break-words"></p>
+        <label for="typewriter" class="block text-lg font-medium text-gray-700 mb-4">Preview:</label>
+        <div id="typewriter">
+            <p id="typewriterText" style="transform: translate(0px, 0px);"></p>
         </div>
-        <div class="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 mb-6">
+        <div class="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 mt-6 mb-6">
             <button id="captureBtn" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors">Generate GIF</button>
             <button id="restartBtn" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors">Start Over</button>
         </div>
@@ -77,9 +81,16 @@ the world of programming!</textarea>
             <img id="gifResult" alt="Captured GIF" class="mt-4 max-w-full hidden">
         </div>
         <div class="text-center mt-4">
-            <a id="downloadLink" class="text-blue-500 hover:text-blue-700 hidden">Download GIF</a>
+            <a id="downloadLink" class="text-blue-500 hover:text-blue-700 hidden">Download the GIF</a>
         </div>
-        <div style="font-size:10px;text-decoration:underline;"><a href="https://github.com/willkessler/typed-text-gif-maker?tab=readme-ov-file">Github Repo</a></div>
+        <div class="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2 mt-9 mb-1">
+          <div class="text-xs font-bold"><a href="https://github.com/willkessler/typed-text-gif-maker?tab=readme-ov-file"><img src="github-mark.png" width="20"></a></div>
+          <div class="text-xs pl-8">Brought to you by:</div>
+          <div><a href="https://this-is-not-a-drill.com" target="_blank"><img src="ThisIsNotADrill_cutout.png" alt="This Is Not A Drill Logo" width="20"></a></div>
+          <div class="text-xs font-bold cursor-pointer"><a href="https://this-is-not-a-drill.com" target="_blank">This Is Not A Drill! user alerting service</a></div>
+        </div>
     </div>
 </body>
 </html>
+
+
