@@ -107,6 +107,30 @@ function applyColors() {
   textElement.appendChild(suffixSpan);
 }
 
+function growVerticalSpaceToMax(maxHeight) {
+  let currentHeight = textElement.clientHeight;
+  console.log(`currentHeight:${currentHeight}, maxHeight: ${maxHeight}, suffix: ${currentSuffix}`);
+  let numBrsAdded = 0;
+  if (currentHeight < maxHeight) {
+    const spacer = document.createElement('br');
+    textElement.appendChild(spacer);
+    currentHeight = textElement.clientHeight;
+    ++numBrsAdded;
+  }    
+  while (currentHeight < maxHeight) {
+    const spacer = document.createElement('br');
+    textElement.appendChild(spacer);
+    currentHeight = textElement.clientHeight;
+    ++numBrsAdded;
+  }
+  console.log(`Added ${numBrsAdded} BRs`);
+
+//  const spacerSpan = document.createElement('span');
+//  spacerSpan.textContent = '  ';
+//  textElement.appendChild(spacerSpan);
+}
+
+
 function updateText() {
   typingSpeed = typingSpeedInput.value;
   suffixDelay = suffixDelayInput.value;
@@ -148,6 +172,19 @@ function log(message) {
   logElement.innerHTML = message + '<br>';
 }
 
+function computeMaxHeight() {
+  suffixes = suffixesTextarea.value.split('\n').filter(s => s.trim() !== '');
+  console.log('suffixes contain:', suffixes);
+  let maxHeight = textElement.clientHeight;
+  for (checkSuffix of suffixes) {
+    prefix = prefixInput.value;
+    currentSuffix = checkSuffix;
+    applyColors();
+    maxHeight = Math.max(maxHeight, textElement.clientHeight);
+  }    
+  return maxHeight;
+}
+
 async function captureGIF() {
   if (isCapturing) {
     log('Capture already in progress, cancelling');
@@ -160,19 +197,22 @@ async function captureGIF() {
 
   const transformAmount = parseInt(fontSizeInput.value) / -2.0;
   textElement.style.transform = `translate(0px,${transformAmount}px)`;
+  //textElement.style.letterSpacing = 1.2;
   captureBtn.textContent = 'Capturing, please wait... (click to cancel)';
   errorElement.textContent = '';
   logElement.innerHTML = '';
   gifResult.style.display = 'none';
   downloadLink.style.display = 'none';
 
+  const computedMaxHeight = computeMaxHeight();
+  
   try {
     log('Initializing GIF encoder');
     const gif = new GIF({
       workers: 2,
-      quality: 10,
+      quality: 1,
       width: typewriterElement.width,
-      height: typewriterElement.height,
+      height: computedMaxHeight,
       workerScript: './gif.worker.js'
     });
 
@@ -187,9 +227,10 @@ async function captureGIF() {
         if (!isCapturing) break;
         currentSuffix = currentSuffixText.slice(0, i);
         applyColors();
+        growVerticalSpaceToMax(computedMaxHeight);
         const canvas = await html2canvas(typewriterElement, { 
           backgroundColor: backgroundColorInput.value,
-          logging: true,
+          logging: false,
         });
         if (i === currentSuffixText.length) {
           gif.addFrame(canvas, {delay: suffixDelay, copy: true});
