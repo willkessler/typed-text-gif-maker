@@ -10,7 +10,7 @@
     <script src="./webfont.js"></script>
     <script src="./typewriter-gif-standalone.js" defer></script>
 </head>
-<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4" style="font-family:'Libre Franklin', sans-serif">
     <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-9xl">
         <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Typewriter GIF Tool!</h1>
         <h1 class="mb-6 text-left text-gray-800">This tool makes it simple to generate a "typewriter effect" rotating set of texts and get a downloadable GIF.</h1>
@@ -22,7 +22,7 @@
             </div>
             <div>
                 <label for="suffixes" class="block text-sm font-medium text-gray-700">Suffixes:</label>
-                <textarea id="suffixes" placeholder="Enter suffixes (one per line)" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="3">world of progra
+                <textarea id="suffixes" placeholder="Enter suffixes (one per line)" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" rows="3">world of programming.
 magic place called Disneyland!
 </textarea>
             </div>
@@ -67,8 +67,8 @@ magic place called Disneyland!
             </div>
         </div>
         <label for="typewriter" class="block text-lg font-medium text-gray-700 mb-4">Preview:</label>
-        <div id="typewriter">
-            <p id="typewriterText" style="transform: translate(0px, 0px);font-family:'Libre Franklin', sans-serif;""></p>
+        <div id="typewriter" style="position:relative">
+            <div id="typewriterText" style="min-height:inherit"></div>
         </div>
         <div class="flex flex-col sm:flex-row justify-center space-y-2 sm:space-y-0 sm:space-x-4 mt-6 mb-6">
             <button id="captureBtn" class="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors">Generate GIF</button>

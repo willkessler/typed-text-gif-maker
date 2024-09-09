@@ -107,30 +107,6 @@ function applyColors() {
   textElement.appendChild(suffixSpan);
 }
 
-function growVerticalSpaceToMax(maxHeight) {
-  let currentHeight = textElement.clientHeight;
-  console.log(`currentHeight:${currentHeight}, maxHeight: ${maxHeight}, suffix: ${currentSuffix}`);
-  let numBrsAdded = 0;
-  if (currentHeight < maxHeight) {
-    const spacer = document.createElement('br');
-    textElement.appendChild(spacer);
-    currentHeight = textElement.clientHeight;
-    ++numBrsAdded;
-  }    
-  while (currentHeight < maxHeight) {
-    const spacer = document.createElement('br');
-    textElement.appendChild(spacer);
-    currentHeight = textElement.clientHeight;
-    ++numBrsAdded;
-  }
-  console.log(`Added ${numBrsAdded} BRs`);
-
-//  const spacerSpan = document.createElement('span');
-//  spacerSpan.textContent = '  ';
-//  textElement.appendChild(spacerSpan);
-}
-
-
 function updateText() {
   typingSpeed = typingSpeedInput.value;
   suffixDelay = suffixDelayInput.value;
@@ -174,7 +150,6 @@ function log(message) {
 
 function computeMaxHeight() {
   suffixes = suffixesTextarea.value.split('\n').filter(s => s.trim() !== '');
-  console.log('suffixes contain:', suffixes);
   let maxHeight = textElement.clientHeight;
   for (checkSuffix of suffixes) {
     prefix = prefixInput.value;
@@ -197,7 +172,6 @@ async function captureGIF() {
 
   const transformAmount = parseInt(fontSizeInput.value) / -2.0;
   textElement.style.transform = `translate(0px,${transformAmount}px)`;
-  //textElement.style.letterSpacing = 1.2;
   captureBtn.textContent = 'Capturing, please wait... (click to cancel)';
   errorElement.textContent = '';
   logElement.innerHTML = '';
@@ -205,14 +179,18 @@ async function captureGIF() {
   downloadLink.style.display = 'none';
 
   const computedMaxHeight = computeMaxHeight();
-  
+  typewriterElement.style.minHeight = `${computedMaxHeight}px`;
+
   try {
     log('Initializing GIF encoder');
+    const devicePixelScale = window.devicePixelRatio;
+    const gifWidth = parseInt(typewriterElement.offsetWidth * devicePixelScale);
+    const gifHeight = parseInt(computedMaxHeight * devicePixelScale);
     const gif = new GIF({
       workers: 2,
       quality: 1,
-      width: typewriterElement.width,
-      height: computedMaxHeight,
+      width: gifWidth,
+      height: gifHeight,
       workerScript: './gif.worker.js'
     });
 
@@ -227,9 +205,8 @@ async function captureGIF() {
         if (!isCapturing) break;
         currentSuffix = currentSuffixText.slice(0, i);
         applyColors();
-        growVerticalSpaceToMax(computedMaxHeight);
         const canvas = await html2canvas(typewriterElement, { 
-          backgroundColor: backgroundColorInput.value,
+          backgroundColor: '#ff0000',
           logging: false,
         });
         if (i === currentSuffixText.length) {
