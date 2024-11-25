@@ -14,7 +14,7 @@
     <div class="container mx-auto p-6 bg-white rounded-lg shadow-lg max-w-9xl">
         <h1 class="text-3xl font-bold mb-6 text-center text-gray-800">Typewriter GIF Tool!</h1>
         <h1 class="mb-6 text-left text-gray-800">This tool makes it simple to generate a "typewriter effect" rotating set of texts and get a downloadable GIF.</h1>
-        <h1 class="mb-6 text-left text-gray-800">Usage: change the prefix, suffixes, font settings and colors to whatever suits your needs, and click <span class="font-bold">Generate GIF</span>. You can then download a GIF exactly like the preview that you can insert into any website builder e.g. in a hero section.</h1>
+        <h1 class="mb-6 text-left text-gray-800">Usage: change the prefix, suffixes, font settings and colors to whatever suits your needs, choose whether the GIF should loop forever or not. Then, click <span class="font-bold">Generate GIF</span>. You can then download a GIF exactly like the preview, which you can insert into any website builder e.g. in a hero section.</h1>
         <div class="space-y-4 mb-6">
             <div>
                 <label for="prefix" class="block text-sm font-medium text-gray-700">Prefix:</label>
@@ -39,6 +39,8 @@ magic place called Disneyland!
                 <div class="flex items-center">
                   <input id="fontBold" type="checkbox" checked class="form-checkbox h-4 w-4 text-blue-600" />
                   <label for="fontBold" class="ml-2 text-sm font-medium text-gray-900 cursor-pointer">Bold Text</label>
+                  <input id="loopsForever" checked type="checkbox" checked class="ml-2 form-checkbox h-4 w-4 text-blue-600" />
+                  <label for="loopsForever" class="ml-2 text-sm font-medium text-gray-900 cursor-pointer">Loops forever</label>
                 </div>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">

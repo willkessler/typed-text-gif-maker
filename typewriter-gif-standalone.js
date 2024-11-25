@@ -13,6 +13,7 @@ const suffixesTextarea = document.getElementById('suffixes');
 const fontSizeInput = document.getElementById('fontSize');
 const fontFamilySelect = document.getElementById('fontFamily');
 const fontBoldCheckbox = document.getElementById('fontBold');
+const loopsForeverCheckbox = document.getElementById('loopsForever');
 const backgroundColorInput = document.getElementById('backgroundColor');
 const prefixColorInput = document.getElementById('prefixColor');
 const suffixColorInput = document.getElementById('suffixColor');
@@ -186,7 +187,10 @@ async function captureGIF() {
     const devicePixelScale = window.devicePixelRatio;
     const gifWidth = parseInt(typewriterElement.offsetWidth * devicePixelScale);
     const gifHeight = parseInt(computedMaxHeight * devicePixelScale);
+    const loopsForever = document.getElementById('loopsForever').value;
+    const repeats = loopsForeverCheckbox.checked ? 0 : -1;
     const gif = new GIF({
+      repeat: repeats,
       workers: 2,
       quality: 1,
       width: gifWidth,
@@ -287,6 +291,7 @@ suffixesTextarea.addEventListener('input', updateText);
 fontSizeInput.addEventListener('input', updateTypewriterStyle);
 fontFamilySelect.addEventListener('change', updateTypewriterStyle);
 fontBoldCheckbox.addEventListener('click', updateTypewriterStyle);
+loopsForeverCheckbox.addEventListener('click', updateTypewriterStyle);
 backgroundColorInput.addEventListener('input', updateTypewriterStyle);
 prefixColorInput.addEventListener('input', updateTypewriterStyle);
 suffixColorInput.addEventListener('input', updateTypewriterStyle);
