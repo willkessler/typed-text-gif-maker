@@ -19,3 +19,12 @@ If you're a web application operator who wants to easily, rapidly, and
 simply communicate with live users of your application, check out <a
 href="https://this-is-not-a-drill.com">This Is Not A Drill!</a>, a
 sponsor of this site.
+
+### Supporting tools
+
+This tool wouldn't exist without:
+
+* The excellent lib GIF.js (https://github.com/jnordberg/gif.js) 
+* Also, html2Canvas (https://html2canvas.hertzen.com).
+
+Much thanks to those authors.
